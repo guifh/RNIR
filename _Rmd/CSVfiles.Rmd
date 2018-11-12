@@ -1,0 +1,74 @@
+---
+title: "Loading CSV files"
+output: md_document
+sidebar: mydoc_sidebar
+permalink: CSVfiles.html
+folder: mydoc
+toc: false
+---
+
+<br>
+
+Loading a CSV file (e.g. comma or tab. separated) into R is straightforward. We can load the [**reference data**](https://github.com/guillaumehans/RNIR) and the [**PHAZIR data**](https://github.com/guillaumehans/RNIR) as follows:
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:/Users/guillaume.hans/Documents/GitHub/RNIR/_Rdata")
+```
+
+```{r eval=TRUE, highlight=TRUE}
+setwd("../_Rdata")    #Replace this by the directory where you stored the files
+refData<-read.csv("refData.csv", sep=",", dec=".", header=TRUE)    #Load CSV file containing reference data
+spectra<-read.csv("PHAZIRspectra.csv",sep=",",dec=".",header=TRUE)  #Load CSV file containing PHAZIR spectra
+```
+
+<br>
+
+The **reference data** are composed of 7 columns containing the parameters measured in the laboratory for each sample:
+
+* Step = Sample drying step number
+* SpeciesID = wood (tree) species identification (**A** for Aspen and **P** for Poplar)
+* sampleID (self explanatory)
+* MC = Moisture content of each sample
+* ASDref = Reference number for spectra acquired with the ASD
+* PHAZIRref = Reference number for spectra acquired with the PHAZIR
+
+```{r highlight=TRUE}
+head(refData)
+```
+
+<br>
+
+The first column of the **PHAZIR data** frame contains the reference numbers of the spectra acquired with the PHAZIR. The rest of the data frame is the spectral matrix. Each row represents a spectrum and each column represents a wavelength (from 939.5 nm to 1796.6 nm by increment of ~ 9 nm). The values represent the absorbance (measured as log(1/R)) of the NIR "light" at each wavelength.
+
+```{r highlight=TRUE}
+spectra[1:5,1:5]
+```
+
+<br>
+
+The **reference data** can be matched with the PHAZIR spectra based on spectra reference numbers (column "PHAZIRref" common to the two data sets). One way to do this:
+
+```{r eval=TRUE, highlight=TRUE}
+
+#Sort the reference data by increasing order of reference number:
+refData<-refData[with(refData, order(PHAZIRref)),] 
+
+#Verify that the reference number of refData and spectra are identical:
+all(refData$PHAZIRref == spectra$PHAZIRref)
+```
+
+
+```{r eval=TRUE, highlight=TRUE}
+#Combine the two in a new data frame:
+mydata<-data.frame(refData, NIR = I(spectra[2:ncol(spectra)]))
+
+#Save the data in a Rdata file:
+save(mydata, file = "mydataPHAZIR.Rdata")
+```
+
+<br>
+
+The new data frame is saved under the name [mydataPHAZIR.Rdata](https://github.com/guillaumehans/RNIR).
+
+
+

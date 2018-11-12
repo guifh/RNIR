@@ -1,0 +1,65 @@
+---
+title: "Plotting the spectra"
+output: md_document
+sidebar: mydoc_sidebar
+permalink: PlotSpectra.html
+folder: mydoc
+toc: false
+---
+
+
+
+
+
+
+<br>
+
+The main goal of processing NIR spectra is attempting to remove noise and background variations that are not related to the variables (properties) of interest, in order to build robust models and improve prediction accuracy. This section will presents the most common methods employed to process NIR spectra before modelling. [De Maesschalck et al. (1999)](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.571.732), [Rinnan et al. (2009)](https://www.sciencedirect.com/science/article/pii/S0165993609001629), [Huang et al. (2010)](https://www.americanpharmaceuticalreview.com/Featured-Articles/116330-Practical-Considerations-in-Data-Pre-treatment-for-NIR-and-Raman-Spectroscopy/) and [Sandak et al. (2016)](https://journals.sagepub.com/doi/abs/10.1255/jnirs.1255) constitute excellent references on the basics of NIR spectra processing. 
+
+
+Plot the raw NIR spectra
+------------------------
+
+Let's plot the raw [PHAZIR spectra](https://github.com/guillaumehans/RNIR) just to see how they look like. Note that here I wanted to build a color scale to accompany the plot, which required the package [squash](https://cran.r-project.org/web/packages/squash/index.html). The package [Hmisc](https://cran.r-project.org/web/packages/Hmisc/index.html) is also used simply for adding tick marks on the plot axis. Moreover, since we are going to create numerous plots of this type, it is coded as a function so we can easily call it back in the future.  
+
+
+{% highlight r %}
+library(Hmisc)
+library(squash)
+
+#Retrieve wavelength numbers from colomn names:
+wavelengths<-substring(colnames(mydata$NIR),2,7)
+wavelengths<-as.numeric(wavelengths)
+
+#Create a plot function:
+myBasicPlot<-function(mydata, wavelengths, xlim, ylim){                   
+  
+  #Create color map:  
+  map <- makecmap(mydata$MC)                                                        
+  mycol <- cmap(mydata$MC, map = map)
+  par(font=2,las=1,mar = c(5,4,4,10) + 0.1)
+  
+  #Plot spectra:
+  matplot(wavelengths,t(mydata$NIR),font.axis=2,main="",          
+          col=mycol,lty=1, xlab="",ylab="",type="l",lwd=3, xlim=xlim, ylim=ylim)
+  minor.tick(nx=2, ny=2,tick.ratio=0.75)                                          
+  par(mar = c(5,4,4,6) + 0.1)
+  title(xlab="Wavelength (nm)",ylab="Absorbance (log[1/R])",font.lab=2)
+  
+  #Plot color map:
+  vkey(map, title = "MC (%)", stretch=1.25, side=2, skip=2, x=2000,y=min(ylim))     
+}
+
+#Define plot limits:
+xlim<-c(900,1800)
+ylim<-c(0,1)
+
+#Sort the data by decreasing MC values: 
+mydata<-mydata[order(mydata$MC, decreasing = TRUE),]
+
+#Draw plot:
+myBasicPlot(mydata, wavelengths, xlim, ylim)                          
+{% endhighlight %}
+
+<img src="/images/Raw-1.svg" title="plot of chunk Raw" alt="plot of chunk Raw" style="display: block; margin: auto;" />
+

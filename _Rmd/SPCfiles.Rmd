@@ -1,0 +1,109 @@
+---
+title: "Loading SPC files"
+output: md_document
+sidebar: mydoc_sidebar
+permalink: SPCfiles.html
+folder: mydoc
+toc: false
+---
+
+<br>
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:/Users/guillaume.hans/Documents/GitHub/RNIR/_Rdata")
+```
+
+
+NIR spectra are commonly stored in files with the **.SPC** extension. Most manufacturers provide software with capabilities to convert their file format into the spc format. Thanks to the [hyperSpec](http://hyperspec.r-forge.r-project.org/) package, it is now very easy to load SPC binary files into R. Of course, you need first to install the hyperSpec package:
+
+```{r eval=FALSE}
+install.packages("hyperSpec")
+```
+
+The challenge here is that, in our [ASDspectra folder](https://github.com/guillaumehans/RNIR), we have much more SPC files then we have reference numbers in the **reference data**. Therefore, we will need to develop a routine to select and open only the SPC files of interest. In simple terms, the following steps will be executed:
+
+* Create a data frame containing all SPC file path and reference numbers
+* Find the SPC file corresponding to the first row of the **reference data** based on the ASD file number (column ASDref) AND the drying step number (column Step); since the files are stored in a separate folder for each step
+* Read NIR spectra from this SPC file and from the 5 following based on the ASD file number and average them (this is done because 6 separate SPC files were recorded for each sample)
+* Store the row of the **reference data** along with the average spectra in a new data frame
+* Go to the next row of the **reference data** and repeat step #2 to #4 until the last row is reached
+
+The R code employed to create the data frame containing all SPC files looks like this:
+
+```{r eval=TRUE, highlight=TRUE}
+#List file path of all spc files in the folder 
+#(replace "./ASDspectra" by your folder name):
+SPCfile<-list.files(path= "./ASDspectra", recursive=TRUE) 
+
+#Extract step number from file path:
+stepNbr<-as.numeric(substring(SPCfile,5,5))
+
+#Extract file number from file path:
+fileNbr<-as.numeric(substring(SPCfile,17,19))   
+
+#Create data frame with above parameters:
+refFile<-data.frame(SPCfile,stepNbr,fileNbr)    
+```
+
+And the data frame created looks as follows:
+
+```{r}
+head(refFile)
+```
+
+Then, to perform the rest of the routine, I used two *for* loops but there are many other ways to do it: 
+
+```{r, message=FALSE, warning=FALSE, results="hide"}
+#Load the hyperSpec library:
+library(hyperSpec)
+
+#Create empty data frame:
+mydata<-data.frame()                            
+for(i in 1:nrow(refData)){
+  
+  #Find the spc file corresponding to the selected row of the reference data:
+  targetFile<-which(refFile$fileNbr==refData$ASDref[i] & refFile$stepNbr==refData$Step[i])
+  
+  #Create another empty data frame:
+  myspectra<-data.frame()                       
+  for(j in 0:5){
+    
+    #Read spc file:
+    tempSPC<-read.spc(paste("ASDspectra/", 
+                            as.character(refFile$SPCfile[targetFile+j]), sep="")) 
+    
+    #Store NIR spectrum as a row in data frame:
+    myspectra<-rbind(myspectra,as.numeric(tempSPC$spc))              
+    rm(tempSPC)
+  }
+  
+  #Average all spectra in data frame:
+  ASDspectrum<-colMeans(myspectra)
+  
+  #Convert to data frame:
+  ASDspectrum<-as.data.frame(t(ASDspectrum))
+  
+  #Rename column of data frame based on ASD spectrum wavelength:
+  colnames(ASDspectrum)<-c(350:2500)            
+  
+  #You can check for yourself that the wavelengths are 
+  #from 350 nm to 2500 nm by increment of 1 nm as
+  #the wavelength vector is stored in tempSPC@wavelength.
+  
+  #Store NIR spectrum along with the reference data:
+  tempdata<-cbind(refData[i,],ASDspectrum,row.names = NULL)
+  mydata<-rbind(mydata,tempdata)
+  rm(tempdata, ASDspectrum, myspectra) 
+
+#Display algorithm progression:
+cat("\r",paste(round(i/nrow(refData)*100)," %",sep=""))}          
+
+#Reformat teh data frame and save it in root folder:
+mydata<-data.frame(mydata[,1:6], NIR = I(mydata[,7:ncol(mydata)]))
+save(mydata, file = "mydataASD.Rdata")
+```
+
+
+The new data frame created is saved under the name [mydataPHAZIR.Rdata](https://github.com/guillaumehans/RNIR).
+
+
