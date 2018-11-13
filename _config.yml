@@ -98,4 +98,6 @@ description: "RNIR is a series of tutorials about NIR data handling, processing,
 # the description is used in the feed.xml file
 
 # needed for sitemap.xml file only
-url: https://guifh.github.io/RNIR
+url: https://guifh.github.io/
+
+baseurl: /RNIR
