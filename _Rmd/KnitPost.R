@@ -46,7 +46,7 @@ KnitPost <- function(site.path='/pathToYourBlog/', overwriteAll=F, overwriteOne=
   
   render_jekyll(highlight = "pygments")
   opts_knit$set(base.url = '/', base.dir = site.path)
-  opts_chunk$set(base.dir = site.path, fig.path="images/", fig.width=8.5, fig.height=5.25, dev='svg', cache=F, 
+  opts_chunk$set(base.dir = site.path, fig.path="images/", fig.width=8.5, fig.height=5.25, dev='png', cache=F, 
                  warning=F, message=F, cache.path=cache.path, tidy=F)   
   
   
