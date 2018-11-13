@@ -61,5 +61,5 @@ mydata<-mydata[order(mydata$MC, decreasing = TRUE),]
 myBasicPlot(mydata, wavelengths, xlim, ylim)                          
 {% endhighlight %}
 
-<img src="/images/Raw-1.png" title="plot of chunk Raw" alt="plot of chunk Raw" style="display: block; margin: auto;" />
+<img src="images/Raw-1.svg" title="plot of chunk Raw" alt="plot of chunk Raw" style="display: block; margin: auto;" />
 
