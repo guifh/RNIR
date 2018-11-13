@@ -26,7 +26,7 @@ mydataDERIV1<-data.frame(mydata[,1:6], NIR = I(t(newspectra)))
 myBasicPlot(mydataDERIV1, wavelengths, xlim, ylim = c(-0.05,0.1)) 
 {% endhighlight %}
 
-<img src="/images/Deriv1-1.svg" title="plot of chunk Deriv1" alt="plot of chunk Deriv1" style="display: block; margin: auto;" />
+<img src="images/Deriv1-1.svg" title="plot of chunk Deriv1" alt="plot of chunk Deriv1" style="display: block; margin: auto;" />
 
 
 
@@ -40,5 +40,5 @@ mydataDERIV2<-data.frame(mydata[,1:6], NIR = I(t(newspectra)))
 myBasicPlot(mydataDERIV2, wavelengths, xlim, ylim = c(-0.02,0.02)) 
 {% endhighlight %}
 
-<img src="/images/Deriv2-1.svg" title="plot of chunk Deriv2" alt="plot of chunk Deriv2" style="display: block; margin: auto;" />
+<img src="images/Deriv2-1.svg" title="plot of chunk Deriv2" alt="plot of chunk Deriv2" style="display: block; margin: auto;" />
 

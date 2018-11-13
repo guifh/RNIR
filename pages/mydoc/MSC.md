@@ -26,5 +26,5 @@ mydataMSC<-data.frame(mydata[,1:6], NIR = I(newspectra))
 myBasicPlot(mydataMSC, wavelengths, xlim, ylim = c(0,0.8))  
 {% endhighlight %}
 
-<img src="/images/MSC-1.svg" title="plot of chunk MSC" alt="plot of chunk MSC" style="display: block; margin: auto;" />
+<img src="images/MSC-1.svg" title="plot of chunk MSC" alt="plot of chunk MSC" style="display: block; margin: auto;" />
 

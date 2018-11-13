@@ -83,7 +83,7 @@ legend("topleft",bty="n", legend=c("Master data","Slave data"),
        col=c("blue","forestgreen"),lty=c(1),cex=1,lwd=3)
 {% endhighlight %}
 
-<img src="/images/beforePDS-1.svg" title="plot of chunk beforePDS" alt="plot of chunk beforePDS" style="display: block; margin: auto;" />
+<img src="images/beforePDS-1.svg" title="plot of chunk beforePDS" alt="plot of chunk beforePDS" style="display: block; margin: auto;" />
 
 We see that the master and slave spectra are very similar, which is a good news and will contribute to facilitate the transfer between the two instruments.
 
@@ -190,7 +190,7 @@ legend("topleft",bty="n", legend=c("Master data","Slave data", "Stand. slave dat
        col=c("blue","forestgreen","red"),lty=c(1),cex=1,lwd=3)
 {% endhighlight %}
 
-<img src="/images/PDSafter-1.svg" title="plot of chunk PDSafter" alt="plot of chunk PDSafter" style="display: block; margin: auto;" />
+<img src="images/PDSafter-1.svg" title="plot of chunk PDSafter" alt="plot of chunk PDSafter" style="display: block; margin: auto;" />
 
 
 It can be seen that the new standardized spectra match the ones of the master instrument. However, because of the nature of the PDS algorithm that uses a moving window, both ends of the standardized spectra need to be truncated. To improve the visibility, we can also remove the old slave data from our plot:
@@ -217,7 +217,7 @@ legend("topleft",bty="n", legend=c("Master data", "Stand. slave data"),
        col=c("blue","red"),lty=c(1),cex=1,lwd=3)
 {% endhighlight %}
 
-<img src="/images/PDScompar-1.svg" title="plot of chunk PDScompar" alt="plot of chunk PDScompar" style="display: block; margin: auto;" />
+<img src="images/PDScompar-1.svg" title="plot of chunk PDScompar" alt="plot of chunk PDScompar" style="display: block; margin: auto;" />
 
 
 Finally, after PDS, it is often necessary to smooth the spectra due to the apparition of artifacts in the signal. This can be done as presented in the [Smoothing](Smoothing.html) section.

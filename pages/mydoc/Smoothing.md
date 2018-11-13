@@ -50,7 +50,7 @@ rm(newspectra)
 myBasicPlot(mydataSmooth, wavelengths, xlim, ylim)          
 {% endhighlight %}
 
-<img src="/images/Smooth-1.svg" title="plot of chunk Smooth" alt="plot of chunk Smooth" style="display: block; margin: auto;" />
+<img src="images/Smooth-1.svg" title="plot of chunk Smooth" alt="plot of chunk Smooth" style="display: block; margin: auto;" />
 
 Note that as the **PHAZIR spectra** are quite short, with only 100 wavelengths. Therefore, the moving average window size has to be small to avoid removing useful information from the signal.
 
@@ -76,4 +76,4 @@ rm(newspectra)
 myBasicPlot(mydataSmoothSG, wavelengths, xlim, ylim)   
 {% endhighlight %}
 
-<img src="/images/SmoothSG-1.svg" title="plot of chunk SmoothSG" alt="plot of chunk SmoothSG" style="display: block; margin: auto;" />
+<img src="images/SmoothSG-1.svg" title="plot of chunk SmoothSG" alt="plot of chunk SmoothSG" style="display: block; margin: auto;" />

@@ -36,4 +36,4 @@ mydataSNV<-data.frame(mydata[,1:6], NIR = I(newspectra))
 myBasicPlot(mydataSNV, wavelengths, xlim, ylim = c(-2,3))   
 {% endhighlight %}
 
-<img src="/images/SNV-1.svg" title="plot of chunk SNV" alt="plot of chunk SNV" style="display: block; margin: auto;" />
+<img src="images/SNV-1.svg" title="plot of chunk SNV" alt="plot of chunk SNV" style="display: block; margin: auto;" />

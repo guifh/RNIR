@@ -30,7 +30,7 @@ mybaseline<-data.frame(mydata[,1:6], NIR = I(baseline@data$spc))
 myBasicPlot(mybaseline, wavelengths, xlim, ylim = c(0,0.8)) 
 {% endhighlight %}
 
-<img src="/images/Baseline-1.svg" title="plot of chunk Baseline" alt="plot of chunk Baseline" style="display: block; margin: auto;" />
+<img src="images/Baseline-1.svg" title="plot of chunk Baseline" alt="plot of chunk Baseline" style="display: block; margin: auto;" />
 
 The baselines can then be removed from the original spectra as follows:
 
@@ -44,4 +44,4 @@ mydataBSL<-data.frame(mydata[,1:6], NIR = I(newspectra))
 myBasicPlot(mydataBSL, wavelengths, xlim, ylim = c(0,0.5))  
 {% endhighlight %}
 
-<img src="/images/BaselineRm-1.svg" title="plot of chunk BaselineRm" alt="plot of chunk BaselineRm" style="display: block; margin: auto;" />
+<img src="images/BaselineRm-1.svg" title="plot of chunk BaselineRm" alt="plot of chunk BaselineRm" style="display: block; margin: auto;" />
